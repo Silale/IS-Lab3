@@ -1,0 +1,36 @@
+x = 0.1:1/22:1; % vienas iejimass
+y = (1 + 0.6*sin(2*pi*x/0.7)) + 0.3*sin(2*pi*x)/2;% vienas isejimas
+q = 0.3;
+c1 = 0.;% centro reiksme
+c2 = 0.45;% centro reiksme
+r1 = 0.14;% spindulio reiksme
+r2 = 0.18;% spindulio reiksme
+w1 = randn(1);
+w2 = randn(1);
+w0 = randn(1);
+E = ones (20,1);
+
+while max(E)>0.1
+    for i = 1:20
+        F1 = exp(-(x(i)-c1)^2/(2*r1^2));
+        F2 = exp(-(x(i)-c2)^2/(2*r2^2));
+        y1 = F1*w1+F2*w2+w0;
+        e = y(i)-y1;
+        E(i)= e; %i matrica sukeliu visus 20 eroru.
+        w1 = w1+q*e*x(i);
+        w2 = w2+q*e*x(i);
+        w0 = w0+q*e*1;
+    end
+    disp(max(E));
+end
+Y = zeros (20,1);
+for i = 1:20
+    F1 = exp(-(x(i)-c1)^2/(2*r1^2));
+    F2 = exp(-(x(i)-c2)^2/(2*r2^2));
+    y1 = F1*w1+F2*w2+w0;
+    
+    Y(i) = y1;
+end
+plot(x,d,'ko',x,Y,'r*')
+    
+        
